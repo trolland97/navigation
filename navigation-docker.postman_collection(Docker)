@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "a49c85d2-700b-45fa-99d3-7f17bc07f9b4",
+		"name": "navigation-docker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Sign Up",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"test\",\n\t\"password\": \"test\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/signUp",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"signUp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"test\",\n\t\"password\": \"test\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/authentication/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"authentication",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x_session_id",
+						"value": "0ef692550ad9a7c06a13492a",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/authentication/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"authentication",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Distance",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x_session_id",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/distance?origin=szeged&destination=budapest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"distance"
+					],
+					"query": [
+						{
+							"key": "origin",
+							"value": "szeged"
+						},
+						{
+							"key": "destination",
+							"value": "budapest"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Location",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x_session_id",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/location/setLocation?location=Szeged",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"location",
+						"setLocation"
+					],
+					"query": [
+						{
+							"key": "location",
+							"value": "Szeged"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Location",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x_session_id",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/location/deleteLocation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"location",
+						"deleteLocation"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,255 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Navigation API
+  description: "This is a navigation api made for a school project."
+host: localhost:10010
+basePath: /
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+tags:
+  - name: 'Register'
+    description: User registration operations
+  - name: 'Authentication'
+    description: User authentication operations
+  - name: 'Distance'
+    description: Distance operations
+  - name: 'Location'
+    description: Location operations
+securityDefinitions:
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: x_session_id
+security:
+  - ApiKeyAuth: []
+paths:
+  /signUp:
+    x-swagger-router-controller: signUp
+    post:
+      description: Creates a new user with a pair of credentials
+      operationId: createUser
+      security: []
+      tags:
+      - "Register"
+      parameters:
+        - name: user
+          in: body
+          description: The user to create
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/CreateUserResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /authentication/login:
+    x-swagger-router-controller: authentication
+    post:
+      description: Authenticates a user with a pair of credentials and returns a sessionID
+      operationId: login
+      security: []
+      tags:
+      - "Authentication"
+      parameters:
+        - name: credentials
+          in: body
+          description: Credentials to authentication the user with
+          required: true
+          schema:
+            $ref: "#/definitions/Credentials"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/AuthenticationResponse"
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /authentication/logout:
+    x-swagger-router-controller: authentication
+    get:
+      description: Logs out the user and removes it's sessiodID from the sessions collection
+      operationId: logout
+      tags:
+      - "Authentication"
+      parameters:
+        - name: x_session_id
+          in: header
+          description: Session ID
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/AuthenticationResponse"
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+  /distance:
+    x-swagger-router-controller: distance
+    get:
+      description: Responses with the distance between two places in kilometers.
+      operationId: distance
+      tags:
+        - "Distance"
+      parameters:
+        - name: origin
+          in: query
+          description: The origin
+          required: false
+          type: string
+        - name: destination
+          in: query
+          description: The destination
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DistanceResponse"
+        "400":
+          description: Bad request
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /location/setLocation:
+    x-swagger-router-controller: location
+    put:
+      description: Updates the current location in the session.
+      operationId: setLocation
+      tags:
+        - "Location"
+      parameters:
+        - name: x_session_id
+          in: header
+          description: Session ID
+          required: true
+          type: string
+        - name: location
+          in: query
+          description: The current location
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/LocationResponse"
+        "400":
+          description: Setting new location failed
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /location/deleteLocation:
+    x-swagger-router-controller: location
+    delete:
+      description: Deletes the current location from the session.
+      operationId: deleteLocation
+      tags:
+        - "Location"
+      parameters:
+        - name: x_session_id
+          in: header
+          description: Session ID
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/LocationResponse"
+        "400":
+          description: Deleting location failed
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+definitions:
+  User:
+    required:
+      - username
+      - password
+    properties:
+      username:
+        type: string
+        example: 'yourname'
+      password:
+        type: string
+        example: 'password'
+  CreateUserResponse:
+    properties:
+      _id:
+        type: string
+        example: 'somestring'
+  Credentials:
+    required:
+      - username
+      - password
+    properties:
+      username:
+        type: string
+        example: 'yourname'
+      password:
+        type: string
+        example: 'password'
+  AuthenticationResponse:
+    required:
+      - sessionID
+    properties:
+      sessionID:
+        type: string
+        example: 'somestring'
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  DistanceResponse:
+    required:
+      - distance
+    properties:
+      distance:
+        type: string
+        example: '130 km'
+  LocationResponse:
+    required:
+      - location
+    properties:
+      location:
+        type: string
+        example: 'Szeged'
+
